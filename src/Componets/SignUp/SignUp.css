@@ -1,0 +1,94 @@
+/* src/components/SignUp.css */
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #495057;
+}
+
+.form-group input {
+  padding: 14px 16px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #ff6b00;
+  box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.2);
+}
+
+.form-group input.error {
+  border-color: #e63946;
+}
+
+.error-message {
+  color: #e63946;
+  font-size: 13px;
+  font-family: 'Poppins', sans-serif;
+  margin-top: 4px;
+}
+
+.terms {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.terms label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  color: #495057;
+  line-height: 1.5;
+}
+
+.terms a {
+  color: #ff6b00;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.terms a:hover {
+  text-decoration: underline;
+}
+
+.terms-error {
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
+.auth-button {
+  background: #ff6b00;
+  color: white;
+  border: none;
+  padding: 16px;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.auth-button:hover {
+  background: #e65c00;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 107, 0, 0.3);
+}

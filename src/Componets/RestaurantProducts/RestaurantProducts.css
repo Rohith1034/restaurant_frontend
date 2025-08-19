@@ -1,0 +1,22 @@
+.all-products-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin: 3% 7%;
+}
+
+.custom_class {
+  display: flex;
+  justify-content: start;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 1040px) {
+  .custom_class {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+}

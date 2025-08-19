@@ -1,0 +1,137 @@
+.restaurant-content-contain {
+  margin: 3% 7%;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+.main-container {
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.80);
+  padding: 5%;
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.left-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  flex: 5;
+}
+
+.left-restaurant-name {
+  font-family: "Poppins", sans-serif;
+  font-size: 36px;
+  font-weight: 800;
+  margin: 0;
+}
+
+.left-restaurant-description {
+  text-align: start;
+  max-width: 400px;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  margin: 8px 0 0;
+}
+
+.info-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.left-info-buttons {
+  border-radius: 30px;
+  background-color: #03081f;
+  padding: 10px 20px;
+  color: white;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.right-container {
+  position: relative;
+  flex: 5;
+}
+
+.right-container-restaurant-img {
+  border-radius: 8px;
+  height: 320px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.rating-badge {
+  position: absolute;
+  bottom: -10px;
+  left: -30px;
+  background: white;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.rating-score {
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.rating-stars {
+  font-size: 18px;
+  color: gold;
+  letter-spacing: 1px;
+}
+
+.rating-reviews {
+  font-size: 14px;
+  color: gray;
+}
+
+.dietary-info {
+  display: flex;
+  gap: 12px;
+  margin-top: 30px;
+  font-size: 16px;
+}
+
+.ingredients-list {
+  
+  margin-top: 16px;
+  font-size: 16px;
+  
+}
+
+
+.ingredients-list h4 {
+  margin-bottom: 6px;
+  text-align: start;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.ingredients-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 16px;
+  gap: 20px;
+}
+
+.ingredients-list li {
+  margin-bottom: 4px;
+  
+}

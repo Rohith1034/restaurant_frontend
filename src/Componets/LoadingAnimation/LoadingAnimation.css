@@ -1,0 +1,90 @@
+/* Light theme loading animation */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: #fff; /* light background */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.loader {
+  position: relative;
+  width: 70px; /* smaller */
+  height: 70px;
+  margin-bottom: 20px;
+}
+
+.loader-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 4px solid rgba(0, 0, 0, 0.05);
+  border-radius: 50%;
+  border-top: 4px solid #ff6b00;
+  animation: spin 1.2s linear infinite;
+}
+
+.loader-ring-inner {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 46px;
+  height: 46px;
+  border: 3px solid transparent;
+  border-radius: 50%;
+  border-top: 3px solid #ffa94d;
+  animation: spin 1s linear infinite reverse;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.utensils-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.fork, .spoon {
+  width: 14px;
+  height: 14px;
+  background-color: #ff6b00;
+  border-radius: 4px;
+}
+
+.fork {
+  margin-bottom: 3px;
+  transform: rotate(15deg);
+}
+
+.spoon {
+  transform: rotate(-15deg);
+}
+
+.loading-text {
+  color: #333;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.loading-dots {
+  display: inline-block;
+  width: 20px;
+  text-align: left;
+}

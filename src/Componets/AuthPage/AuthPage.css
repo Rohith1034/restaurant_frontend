@@ -1,0 +1,84 @@
+/* src/components/AuthPage.css */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 20px;
+}
+
+.auth-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 480px;
+  overflow: hidden;
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.auth-tabs {
+  display: flex;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 20px 0;
+  background: none;
+  border: none;
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #6c757d;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tab-btn.active {
+  color: #ff6b00;
+  position: relative;
+}
+
+.tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #ff6b00;
+  border-radius: 3px 3px 0 0;
+}
+
+.auth-content {
+  padding: 30px;
+}
+
+.auth-footer {
+  padding: 20px 30px;
+  background-color: #f8f9fa;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  color: #495057;
+}
+
+.auth-footer button {
+  background: none;
+  border: none;
+  color: #ff6b00;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0 5px;
+}
+
+.auth-footer button:hover {
+  text-decoration: underline;
+}

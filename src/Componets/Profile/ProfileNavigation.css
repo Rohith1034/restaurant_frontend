@@ -1,0 +1,87 @@
+/* src/styles/ProfileNavigation.css */
+.profile-nav {
+  width: 250px;
+}
+
+.nav-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.nav-item {
+  display: block;
+  width: 100%;
+  padding: 18px 20px;
+  text-align: left;
+  border: none;
+  background: none;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #495057;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid #f1f3f5;
+}
+
+.nav-item:last-child {
+  border-bottom: none;
+}
+
+.nav-item:hover {
+  background: #f8f9fa;
+  color: #ff6b00;
+}
+
+.nav-item.active {
+  color: #ff6b00;
+  background: #fff9f5;
+}
+
+.indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 4px;
+  background: #ff6b00;
+}
+
+@media (max-width: 768px) {
+  .profile-nav {
+    width: 100%;
+  }
+  
+  .nav-card {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  
+  .nav-card::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .nav-item {
+    white-space: nowrap;
+    border-bottom: none;
+    border-right: 1px solid #f1f3f5;
+    text-align: center;
+  }
+  
+  .nav-item:last-child {
+    border-right: none;
+  }
+  
+  .indicator {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    width: 100%;
+  }
+}
