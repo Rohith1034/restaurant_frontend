@@ -9,11 +9,16 @@ import RestaurantDetails from "./Componets/RestaurantDetails/RestaurantDetails";
 import AllProducts from "./Componets/AllProducts/AllProducts";
 import ProductDetail from "./Componets/ProductDetail/ProductDetail";
 import CartPage from "./Componets/Cart/Cart";
+import RestaurantAuthWrapper from "./Componets/RestaurantAuthWrapper/RestaurantAuthWrapper";
+import RestaurantDashboard from "./Componets/RestaurantDashboard/RestaurantDashboard";
+import ProductManagement from "./Componets/ProductManagement/ProductManagement";
+import RestaurantLogin from "./Componets/RestaurantLogin/RestaurantLogin";
+import RestaurantAuth from "./Componets/RestaurantAuth/RestaurantAuth";
 const provider = process.env.CLIENTID;
 
 
+
 function App() {
-  console.log(provider)
   return (
     <div className="App">
       <ToastContainer />
@@ -26,6 +31,11 @@ function App() {
         <Route path="/allProducts" element={<AllProducts />}></Route>
         <Route path="/product/:id" element={<ProductDetail/>}></Route>
         <Route path="/cart" element={<CartPage/>}></Route>
+        <Route path="/restaurants/auth" element={<RestaurantAuth />} />
+        <Route path="/restaurants/login/*" element={<RestaurantAuth />} />
+        <Route path="/restaurants/signin" element={<RestaurantAuth />} />
+        <Route path="/restaurants/dashboard" element={<RestaurantDashboard />} />
+        <Route path="/restaurants/productManagement" element={<ProductManagement />} />
       </Routes>
     </div>
   );
