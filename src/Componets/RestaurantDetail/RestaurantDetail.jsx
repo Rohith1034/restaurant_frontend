@@ -82,7 +82,7 @@ const RestaurantDetails = ({ restaurant, onUpdate }) => {
     
     try {
       const restaurantId = localStorage.getItem('restaurantId');
-      const response = await fetch(`http://localhost:5000/api/restaurant/${restaurantId}`, {
+      const response = await fetch(`https://restaurant-backend-uclq.onrender.com/api/restaurant/${restaurantId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

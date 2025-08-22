@@ -19,7 +19,7 @@ const RestaurantAuthWrapper = () => {
         }
         
         // Verify with backend if the restaurant session is still valid
-        const response = await fetch(`http://localhost:5000/api/restaurant/verify/${restaurantId}`, {
+        const response = await fetch(`https://restaurant-backend-uclq.onrender.com/api/restaurant/verify/${restaurantId}`, {
           credentials: 'include'
         });
         

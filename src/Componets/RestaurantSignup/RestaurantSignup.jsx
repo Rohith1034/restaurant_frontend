@@ -68,7 +68,7 @@ const RestaurantSignup = () => {
     }
     
     try {
-      const response = await fetch('http://localhost:5000/api/restaurant/signup', {
+      const response = await fetch('https://restaurant-backend-uclq.onrender.com/api/restaurant/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

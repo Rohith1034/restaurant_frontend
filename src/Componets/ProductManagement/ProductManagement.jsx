@@ -21,7 +21,7 @@ const ProductManagement = ({ restaurantId }) => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/restaurant/${restaurantId}/products`, {
+      const response = await fetch(`https://restaurant-backend-uclq.onrender.com/api/restaurant/${restaurantId}/products`, {
         credentials: 'include'
       });
       

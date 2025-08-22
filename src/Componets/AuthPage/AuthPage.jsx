@@ -3,10 +3,16 @@ import React, { useState } from 'react';
 import SignIn from '../Login/SignIn';
 import SignUp from '../SignUp/SignUp';
 import './AuthPage.css';
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 const AuthPage = () => {
   const [activeTab, setActiveTab] = useState('signin');
-
+  const userId = Cookies.get("userId");
+  const navigate = useNavigate();
+  if (userId != "" || userId != undefined) {
+    navigate("/dashboard");
+  }
   return (
     <div className="auth-container">
       <div className="auth-card">
