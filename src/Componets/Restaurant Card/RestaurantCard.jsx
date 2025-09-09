@@ -16,6 +16,11 @@ const RestaurantCard = ({ restaurant, addToCart }) => {
     );
   };
 
+  const handleOrderNow = (e) => {
+    e.stopPropagation();
+    navigate(`/restaurant/${restaurant._id}`);
+  }
+
   return (
     <div
       className={`restaurant-card ${restaurant.featured ? "featured" : ""}`}
@@ -45,7 +50,7 @@ const RestaurantCard = ({ restaurant, addToCart }) => {
           <FaClock /> {restaurant.deliveryTime}
         </div>
 
-        <button className="order-button" onClick={() => addToCart(restaurant)}>
+        <button className="order-button" onClick={handleOrderNow}>
           Order Now
         </button>
       </div>
