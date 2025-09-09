@@ -25,7 +25,10 @@ const PreOrder = () => {
 
   useEffect(() => {
     const userId = Cookies.get("userId");
+    console.log("UserId from cookie:", userId);
+
     if (!userId) {
+      console.log("No userId found. Redirecting to homepage.");
       navigate("/");
       return;
     }
@@ -35,21 +38,21 @@ const PreOrder = () => {
         const [userRes, productRes] = await Promise.all([
           axios.get(
             `https://restaurant-backend-uclq.onrender.com/user/${userId}`,
-            {
-              headers: { userId },
-            }
+            { headers: { userId } }
           ),
           axios.get(
             `https://restaurant-backend-uclq.onrender.com/product/${id}`,
-            {
-              headers: { userId },
-            }
+            { headers: { userId } }
           ),
         ]);
+
+        console.log("User API response:", userRes.data);
+        console.log("Product API response:", productRes.data);
+
         setUser(userRes.data);
         setProduct(productRes.data.msg);
       } catch (err) {
-        console.log(err);
+        console.error("Error fetching user or product:", err);
       } finally {
         setLoading(false);
       }
@@ -60,23 +63,39 @@ const PreOrder = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(`Form input changed: ${name} = ${value}`);
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const userId = Cookies.get("userId");
+    console.log("Submitting order with userId:", userId);
+
+    if (!product) {
+      toast.error("Product not loaded yet.");
+      console.warn("Attempted to submit order before product loaded.");
+      return;
+    }
+
+    const restaurantId = product.restaurantId || product.restaurant?._id;
+    const paymentMethod =
+      formData.paymentMethod === "Card"
+        ? "Credit Card"
+        : "Cash on Delivery";
+
+    console.log("Final order data to send:");
+    console.log("Restaurant ID:", restaurantId);
+    console.log("Items:", [{ product: product._id, quantity: 1, price: product.price }]);
+    console.log("Total Amount:", product.price);
+    console.log("Delivery Address:", formData);
+    console.log("Payment Method:", paymentMethod);
 
     try {
-      if (!product) {
-        toast.error("Product not loaded yet.");
-        return;
-      }
-
       const res = await axios.post(
         "https://restaurant-backend-uclq.onrender.com/orders",
         {
-          restaurant: product.restaurantId || product.restaurant?._id,
+          restaurant: restaurantId,
           items: [{ product: product._id, quantity: 1, price: product.price }],
           totalAmount: product.price,
           deliveryAddress: {
@@ -86,25 +105,26 @@ const PreOrder = () => {
             zipCode: formData.zipCode,
           },
           status: "Pending",
-          paymentMethod:
-            formData.paymentMethod === "Card"
-              ? "Credit Card"
-              : "Cash on Delivery",
+          paymentMethod,
         },
         { headers: { userId } }
       );
+
+      console.log("Order API response:", res.data);
 
       if (res.status === 201) {
         toast.success("Order placed successfully!");
         navigate("/orders");
       }
     } catch (err) {
-      console.error("Order error:", err.response?.data || err.message);
+      console.error("Order submission error:", err.response?.data || err.message);
       toast.error(err.response?.data?.msg || "Error placing order!");
     }
   };
 
   if (loading) return <LoadingAnimation />;
+
+  console.log("Rendering PreOrder page with product:", product);
 
   return (
     <div>
