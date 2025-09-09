@@ -16,11 +16,27 @@ const OrdersPage = () => {
 
     const fetchOrders = async () => {
       try {
-        const res = await axios.get(
-          "https://restaurant-backend-uclq.onrender.com/orders",
-          { headers: { userId } }
+        // 1️⃣ Fetch the user to get order IDs
+        const userRes = await axios.get(
+          `https://restaurant-backend-uclq.onrender.com/users/${userId}`
         );
-        setOrders(res.data.orders || []);
+
+        const orderIds = userRes.data?.orders || [];
+
+        // 2️⃣ Fetch each order detail using your /orders/:orderId route
+        const orderPromises = orderIds.map((id) =>
+          axios.get(
+            `https://restaurant-backend-uclq.onrender.com/orders/${id}`,
+            { headers: { userId } }
+          )
+        );
+
+        const results = await Promise.all(orderPromises);
+
+        // 3️⃣ Extract `order` from each response
+        const fullOrders = results.map((res) => res.data.order);
+
+        setOrders(fullOrders);
       } catch (err) {
         console.error("Error fetching orders:", err);
       } finally {
@@ -62,7 +78,10 @@ const OrdersPage = () => {
                 </div>
               </div>
 
-              <div className="order-restaurant">{order.restaurant}</div>
+              {/* If restaurant is populated object */}
+              <div className="order-restaurant">
+                {order.restaurant?.name || order.restaurant}
+              </div>
 
               <div className="order-items">
                 {order.items.map((item, index) => (
@@ -79,7 +98,9 @@ const OrdersPage = () => {
 
               <div className="order-footer">
                 <div className="total-label">Total</div>
-                <div className="total-price">${order.totalAmount.toFixed(2)}</div>
+                <div className="total-price">
+                  ${order.totalAmount.toFixed(2)}
+                </div>
               </div>
 
               <button className="reorder-button">Reorder</button>
