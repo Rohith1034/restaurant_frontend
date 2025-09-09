@@ -80,13 +80,13 @@ const PreOrder = () => {
 
     const restaurantId = product.restaurantId || product.restaurant?._id;
     const paymentMethod =
-      formData.paymentMethod === "Card"
-        ? "Credit Card"
-        : "Cash on Delivery";
+      formData.paymentMethod === "Card" ? "Credit Card" : "Cash on Delivery";
 
     console.log("Final order data to send:");
     console.log("Restaurant ID:", restaurantId);
-    console.log("Items:", [{ product: product._id, quantity: 1, price: product.price }]);
+    console.log("Items:", [
+      { product: product._id, quantity: 1, price: product.price },
+    ]);
     console.log("Total Amount:", product.price);
     console.log("Delivery Address:", formData);
     console.log("Payment Method:", paymentMethod);
@@ -95,7 +95,7 @@ const PreOrder = () => {
       const res = await axios.post(
         "https://restaurant-backend-uclq.onrender.com/orders",
         {
-          restaurant: restaurantId,
+          restaurant: product.restaurant, // sending string name
           items: [{ product: product._id, quantity: 1, price: product.price }],
           totalAmount: product.price,
           deliveryAddress: {
@@ -105,7 +105,10 @@ const PreOrder = () => {
             zipCode: formData.zipCode,
           },
           status: "Pending",
-          paymentMethod,
+          paymentMethod:
+            formData.paymentMethod === "Card"
+              ? "Credit Card"
+              : "Cash on Delivery",
         },
         { headers: { userId } }
       );
@@ -117,7 +120,10 @@ const PreOrder = () => {
         navigate("/orders");
       }
     } catch (err) {
-      console.error("Order submission error:", err.response?.data || err.message);
+      console.error(
+        "Order submission error:",
+        err.response?.data || err.message
+      );
       toast.error(err.response?.data?.msg || "Error placing order!");
     }
   };
