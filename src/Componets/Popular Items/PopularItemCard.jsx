@@ -19,7 +19,7 @@ const PopularItemCard = ({ item, addToCart }) => {
     try {
       const res = await axios.post(
         `https://restaurant-backend-uclq.onrender.com/${Cookies.get("userId")}/addTocart`,
-        { item },
+        { productData: item },
         {
           headers: { userId: Cookies.get("userId") },
         }
