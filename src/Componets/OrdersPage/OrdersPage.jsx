@@ -33,10 +33,10 @@ const OrdersPage = () => {
 
         const results = await Promise.all(orderPromises);
 
-        // 3️⃣ Extract `order` from each response
-        const fullOrders = results.map((res) => res.data.order);
+        // 3️⃣ Extract `order` safely from each response
+        const fullOrders = results.map((res) => res.data.order || res.data);
 
-        setOrders(fullOrders);
+        setOrders(fullOrders.filter(Boolean)); // remove undefined/null
       } catch (err) {
         console.error("Error fetching orders:", err);
       } finally {
@@ -50,7 +50,6 @@ const OrdersPage = () => {
   if (loading) return <LoadingAnimation />;
 
   return (
-    /*
     <div className="order-history">
       <div className="section-header">
         <h2 className="section-title">My Orders</h2>
@@ -67,52 +66,61 @@ const OrdersPage = () => {
         </div>
       ) : (
         <div className="orders-list">
-          {orders.map((order) => (
-            <div key={order._id} className="order-card">
+          {orders.map((order, index) => (
+            <div key={order?._id || index} className="order-card">
               <div className="order-header">
-                <div className="order-id">Order #{order._id.slice(-6)}</div>
-                <div className="order-date">
-                  {new Date(order.orderDate).toLocaleDateString()}
+                <div className="order-id">
+                  Order #{order?._id ? order._id.slice(-6) : "N/A"}
                 </div>
-                <div className={`order-status ${order.status.toLowerCase()}`}>
-                  <FaCheckCircle /> {order.status}
+                <div className="order-date">
+                  {order?.orderDate
+                    ? new Date(order.orderDate).toLocaleDateString()
+                    : "Unknown Date"}
+                </div>
+                <div
+                  className={`order-status ${order?.status?.toLowerCase() || ""}`}
+                >
+                  <FaCheckCircle /> {order?.status || "Pending"}
                 </div>
               </div>
 
-              
               <div className="order-restaurant">
-                {order.restaurant?.name || order.restaurant}
+                {order?.restaurant?.name || order?.restaurant || "Unknown Restaurant"}
               </div>
 
               <div className="order-items">
-                {order.items.map((item, index) => (
-                  <div key={index} className="order-item">
-                    <div className="item-name">
-                      {item.quantity}x {item.product?.name || "Product"}
+                {order?.items?.length > 0 ? (
+                  order.items.map((item, idx) => (
+                    <div key={idx} className="order-item">
+                      <div className="item-name">
+                        {item.quantity}x {item.product?.name || "Product"}
+                      </div>
+                      <div className="item-price">
+                        $
+                        {(
+                          (item.quantity || 0) * (item.price || 0)
+                        ).toFixed(2)}
+                      </div>
                     </div>
-                    <div className="item-price">
-                      ${(item.quantity * item.price).toFixed(2)}
-                    </div>
-                  </div>
-                ))}
+                  ))
+                ) : (
+                  <p>No items found</p>
+                )}
               </div>
 
               <div className="order-footer">
                 <div className="total-label">Total</div>
                 <div className="total-price">
-                  ${order.totalAmount.toFixed(2)}
+                  ${order?.totalAmount ? order.totalAmount.toFixed(2) : "0.00"}
                 </div>
               </div>
 
               <button className="reorder-button">Reorder</button>
             </div>
           ))}
-            
         </div>
       )}
     </div>
-    */
-   <div></div>
   );
 };
 
