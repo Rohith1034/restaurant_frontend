@@ -71,11 +71,20 @@ const PreOrder = () => {
       const res = await axios.post(
         "https://restaurant-backend-uclq.onrender.com/orders",
         {
-          restaurant: product.restaurantId || product.restaurant?._id, // ✅ make sure you send _id not name
-          items: [{ product: product._id, quantity: 1 }], // ✅ use product._id
+          restaurant: product.restaurantId || product.restaurant?._id,
+          items: [{ product: product._id, quantity: 1, price: product.price }],
           totalAmount: product.price,
-          deliveryAddress: `${formData.street}, ${formData.city}, ${formData.state}, ${formData.zipCode}`, // ✅ send string
+          deliveryAddress: {
+            street: formData.street,
+            city: formData.city,
+            state: formData.state,
+            zipCode: formData.zipCode,
+          },
           status: "Pending",
+          paymentMethod:
+            formData.paymentMethod === "Card"
+              ? "Credit Card"
+              : "Cash on Delivery",
         },
         { headers: { userId } }
       );
