@@ -1,6 +1,6 @@
 // ProductManagement.js - Component for managing products
-import React, { useState, useEffect } from 'react';
-import './ProductManagement.css';
+import React, { useState, useEffect } from "react";
+import "./ProductManagement.css";
 
 const ProductManagement = ({ props }) => {
   const [products, setProducts] = useState([]);
@@ -10,38 +10,38 @@ const ProductManagement = ({ props }) => {
   const restaurantId = props.restaurantId;
   const [formData, setFormData] = useState({
     restaurant: restaurantName, // now stores name, not ID
-    name: '',
-    description: '',
-    price: '',
-    category: '',
-    image: '',
+    name: "",
+    description: "",
+    price: "",
+    category: "",
+    image: "",
     available: true,
-    ingredients: '',
+    ingredients: "",
     dietaryInfo: {
       vegetarian: false,
       vegan: false,
-      glutenFree: false
+      glutenFree: false,
     },
-    preparationTime: ''
+    preparationTime: "",
   });
 
   useEffect(() => {
     fetchProducts();
-  }, [restaurantName,restaurantId]);
+  }, [restaurantName, restaurantId]);
 
   const fetchProducts = async () => {
     try {
       const response = await fetch(
         `https://restaurant-backend-uclq.onrender.com/api/restaurant/${restaurantId}/products`,
-        { credentials: 'include' }
+        { credentials: "include" }
       );
-      
+
       if (response.ok) {
         const data = await response.json();
         setProducts(data);
       }
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error("Error fetching products:", error);
     }
   };
 
@@ -50,63 +50,66 @@ const ProductManagement = ({ props }) => {
 
     if (name.startsWith("dietaryInfo.")) {
       const key = name.split(".")[1];
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         dietaryInfo: {
           ...prev.dietaryInfo,
-          [key]: checked
-        }
+          [key]: checked,
+        },
       }));
     } else {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        [name]: type === 'checkbox' ? checked : value
+        [name]: type === "checkbox" ? checked : value,
       }));
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
-      const url = editingProduct 
-        ? `/api/restaurant/${restaurantId}/products/${editingProduct._id}`
-        : `/api/restaurant/${restaurantId}/products`;
-      
-      const method = editingProduct ? 'PUT' : 'POST';
-      
+      const API_BASE = "https://restaurant-backend-uclq.onrender.com";
+
+      // inside handleSubmit:
+      const url = editingProduct
+        ? `${API_BASE}/api/restaurant/${restaurantId}/products/${editingProduct._id}`
+        : `${API_BASE}/api/restaurant/${restaurantId}/products`;
+
+      const method = editingProduct ? "PUT" : "POST";
+
       const response = await fetch(url, {
         method,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
-        credentials: 'include'
+        credentials: "include",
       });
-      
+
       if (response.ok) {
         setShowForm(false);
         setEditingProduct(null);
         setFormData({
           restaurant: restaurantName,
-          name: '',
-          description: '',
-          price: '',
-          category: '',
-          image: '',
+          name: "",
+          description: "",
+          price: "",
+          category: "",
+          image: "",
           available: true,
-          ingredients: '',
+          ingredients: "",
           dietaryInfo: {
             vegetarian: false,
             vegan: false,
-            glutenFree: false
+            glutenFree: false,
           },
-          preparationTime: ''
+          preparationTime: "",
         });
         fetchProducts();
       }
     } catch (error) {
-      console.error('Error saving product:', error);
+      console.error("Error saving product:", error);
     }
   };
 
@@ -120,31 +123,35 @@ const ProductManagement = ({ props }) => {
       category: product.category,
       image: product.image,
       available: product.available,
-      ingredients: product.ingredients || '',
+      ingredients: product.ingredients || "",
       dietaryInfo: product.dietaryInfo || {
         vegetarian: false,
         vegan: false,
-        glutenFree: false
+        glutenFree: false,
       },
-      preparationTime: product.preparationTime || ''
+      preparationTime: product.preparationTime || "",
     });
     setShowForm(true);
   };
 
   const handleDelete = async (productId) => {
-    if (!window.confirm('Are you sure you want to delete this product?')) return;
-    
+    if (!window.confirm("Are you sure you want to delete this product?"))
+      return;
+
     try {
-      const response = await fetch(`/api/restaurant/${restaurantName}/products/${productId}`, {
-        method: 'DELETE',
-        credentials: 'include'
-      });
-      
+      const response = await fetch(
+        `/api/restaurant/${restaurantName}/products/${productId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+
       if (response.ok) {
         fetchProducts();
       }
     } catch (error) {
-      console.error('Error deleting product:', error);
+      console.error("Error deleting product:", error);
     }
   };
 
@@ -152,20 +159,16 @@ const ProductManagement = ({ props }) => {
     <div className="product-management">
       <div className="product-header">
         <h2>Product Management ({restaurantName})</h2>
-        <button 
-          className="add-product-btn"
-          onClick={() => setShowForm(true)}
-        >
+        <button className="add-product-btn" onClick={() => setShowForm(true)}>
           Add New Product
         </button>
       </div>
-      
+
       {showForm && (
         <div className="product-form-modal">
           <div className="product-form-container">
-            <h3>{editingProduct ? 'Edit Product' : 'Add New Product'}</h3>
+            <h3>{editingProduct ? "Edit Product" : "Add New Product"}</h3>
             <form onSubmit={handleSubmit}>
-              
               <div className="form-group">
                 <label htmlFor="name">Product Name</label>
                 <input
@@ -177,7 +180,7 @@ const ProductManagement = ({ props }) => {
                   required
                 />
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="description">Description</label>
                 <textarea
@@ -187,7 +190,7 @@ const ProductManagement = ({ props }) => {
                   onChange={handleChange}
                 />
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="price">Price</label>
                 <input
@@ -201,7 +204,7 @@ const ProductManagement = ({ props }) => {
                   required
                 />
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="category">Category</label>
                 <input
@@ -213,9 +216,11 @@ const ProductManagement = ({ props }) => {
                   required
                 />
               </div>
-              
+
               <div className="form-group">
-                <label htmlFor="ingredients">Ingredients (comma-separated)</label>
+                <label htmlFor="ingredients">
+                  Ingredients (comma-separated)
+                </label>
                 <input
                   type="text"
                   id="ingredients"
@@ -234,7 +239,8 @@ const ProductManagement = ({ props }) => {
                       name="dietaryInfo.vegetarian"
                       checked={formData.dietaryInfo.vegetarian}
                       onChange={handleChange}
-                    /> Vegetarian
+                    />{" "}
+                    Vegetarian
                   </label>
                   <label>
                     <input
@@ -242,7 +248,8 @@ const ProductManagement = ({ props }) => {
                       name="dietaryInfo.vegan"
                       checked={formData.dietaryInfo.vegan}
                       onChange={handleChange}
-                    /> Vegan
+                    />{" "}
+                    Vegan
                   </label>
                   <label>
                     <input
@@ -250,13 +257,16 @@ const ProductManagement = ({ props }) => {
                       name="dietaryInfo.glutenFree"
                       checked={formData.dietaryInfo.glutenFree}
                       onChange={handleChange}
-                    /> Gluten Free
+                    />{" "}
+                    Gluten Free
                   </label>
                 </div>
               </div>
 
               <div className="form-group">
-                <label htmlFor="preparationTime">Preparation Time (minutes)</label>
+                <label htmlFor="preparationTime">
+                  Preparation Time (minutes)
+                </label>
                 <input
                   type="number"
                   id="preparationTime"
@@ -278,7 +288,7 @@ const ProductManagement = ({ props }) => {
                   required
                 />
               </div>
-              
+
               <div className="form-group checkbox-group">
                 <label htmlFor="available">
                   <input
@@ -291,11 +301,11 @@ const ProductManagement = ({ props }) => {
                   Available
                 </label>
               </div>
-              
+
               <div className="form-buttons">
                 <button type="submit">Save</button>
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   onClick={() => {
                     setShowForm(false);
                     setEditingProduct(null);
@@ -308,36 +318,41 @@ const ProductManagement = ({ props }) => {
           </div>
         </div>
       )}
-      
+
       <div className="products-list">
         {products.length === 0 ? (
           <p>No products found. Add your first product!</p>
         ) : (
-          products.map(product => (
+          products.map((product) => (
             <div key={product._id} className="product-card">
               <img src={product.image} alt={product.name} />
               <div className="product-info">
                 <h3>{product.name}</h3>
                 <p>{product.description}</p>
-                <p><strong>Ingredients:</strong> {product.ingredients}</p>
                 <p>
-                  <strong>Dietary:</strong> 
+                  <strong>Ingredients:</strong> {product.ingredients}
+                </p>
+                <p>
+                  <strong>Dietary:</strong>
                   {product.dietaryInfo?.vegetarian && " 🥦 Vegetarian"}
                   {product.dietaryInfo?.vegan && " 🌱 Vegan"}
                   {product.dietaryInfo?.glutenFree && " 🌾 Gluten Free"}
                 </p>
-                <p><strong>Preparation Time:</strong> {product.preparationTime} mins</p>
+                <p>
+                  <strong>Preparation Time:</strong> {product.preparationTime}{" "}
+                  mins
+                </p>
                 <div className="product-meta">
                   <span className="price">${product.price}</span>
                 </div>
                 <div className="product-actions">
-                  <button 
+                  <button
                     className="edit-btn"
                     onClick={() => handleEdit(product)}
                   >
                     Edit
                   </button>
-                  <button 
+                  <button
                     className="delete-btn"
                     onClick={() => handleDelete(product._id)}
                   >
