@@ -17,37 +17,39 @@ const CartPage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const userId = Cookies.get("userId");
+  const userId = Cookies.get("userId");
 
-    if (!userId) {
-      navigate("/");
-      return;
-    }
+  if (!userId) {
+    navigate("/");
+    return;
+  }
 
-    const getUserData = async () => {
-      try {
-        const res = await axios.get(`https://restaurant-backend-uclq.onrender.com/user/${userId}`, {
-          headers: {
-            userId: userId,
-          },
-        });
-        setUser(res.data);
-        setCartItems(res.data.cart);
-        setCartCount(res.data.orders.length);
-      } catch (err) {
-        if (err.response && err.response.status === 404) {
-          toast.error("User not found!");
-        }
+  const getUserData = async () => {
+    try {
+      const res = await axios.get(
+        `https://restaurant-backend-uclq.onrender.com/user/${userId}`,
+        { headers: { userId: userId } }
+      );
+
+      const userData = res.data.msg || res.data;  // ✅ handle both cases
+      setUser(userData);
+      setCartItems(userData.cart || []);          // ✅ safe fallback
+      setCartCount(userData.orders?.length || 0);
+    } catch (err) {
+      if (err.response?.status === 404) {
+        toast.error("User not found!");
       }
-    };
+    }
+  };
 
-    const fetchData = async () => {
-      getUserData();
-      setLoading(false);
-    };
+  const fetchData = async () => {
+    await getUserData();   // ✅ wait until user data loads
+    setLoading(false);     // ✅ now toggle loading
+  };
 
-    fetchData();
-  }, [navigate]);
+  fetchData();
+}, [navigate]);
+
 
   const removeFromCart = async (id) => {
     try {
