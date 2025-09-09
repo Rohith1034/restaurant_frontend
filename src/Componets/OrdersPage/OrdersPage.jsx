@@ -50,6 +50,7 @@ const OrdersPage = () => {
   if (loading) return <LoadingAnimation />;
 
   return (
+    /*
     <div className="order-history">
       <div className="section-header">
         <h2 className="section-title">My Orders</h2>
@@ -78,7 +79,7 @@ const OrdersPage = () => {
                 </div>
               </div>
 
-              {/* If restaurant is populated object */}
+              
               <div className="order-restaurant">
                 {order.restaurant?.name || order.restaurant}
               </div>
@@ -106,9 +107,12 @@ const OrdersPage = () => {
               <button className="reorder-button">Reorder</button>
             </div>
           ))}
+            
         </div>
       )}
     </div>
+    */
+   <div></div>
   );
 };
 
