@@ -33,12 +33,18 @@ const PreOrder = () => {
     const fetchData = async () => {
       try {
         const [userRes, productRes] = await Promise.all([
-          axios.get(`https://restaurant-backend-uclq.onrender.com/user/${userId}`, {
-            headers: { userId },
-          }),
-          axios.get(`https://restaurant-backend-uclq.onrender.com/product/${id}`, {
-            headers: { userId },
-          }),
+          axios.get(
+            `https://restaurant-backend-uclq.onrender.com/user/${userId}`,
+            {
+              headers: { userId },
+            }
+          ),
+          axios.get(
+            `https://restaurant-backend-uclq.onrender.com/product/${id}`,
+            {
+              headers: { userId },
+            }
+          ),
         ]);
         setUser(userRes.data);
         setProduct(productRes.data.msg);
@@ -65,15 +71,10 @@ const PreOrder = () => {
       const res = await axios.post(
         "https://restaurant-backend-uclq.onrender.com/orders",
         {
-          restaurant: product.restaurant?._id || product.restaurant, // backend expects id
-          items: [{ product: id, quantity: 1 }],
+          restaurant: product.restaurantId || product.restaurant?._id, // ✅ make sure you send _id not name
+          items: [{ product: product._id, quantity: 1 }], // ✅ use product._id
           totalAmount: product.price,
-          deliveryAddress: {
-            street: formData.street,
-            city: formData.city,
-            state: formData.state,
-            zipCode: formData.zipCode,
-          },
+          deliveryAddress: `${formData.street}, ${formData.city}, ${formData.state}, ${formData.zipCode}`, // ✅ send string
           status: "Pending",
         },
         { headers: { userId } }
@@ -84,8 +85,8 @@ const PreOrder = () => {
         navigate("/orders");
       }
     } catch (err) {
-      console.error(err);
-      toast.error("Error placing order!");
+      console.error("Order error:", err.response?.data || err.message);
+      toast.error(err.response?.data?.msg || "Error placing order!");
     }
   };
 
@@ -97,7 +98,11 @@ const PreOrder = () => {
       <div className="preorder-container">
         <h1>Pre-Order: {product?.name}</h1>
         <div className="preorder-content">
-          <img src={product?.image} alt={product?.name} className="preorder-img" />
+          <img
+            src={product?.image}
+            alt={product?.name}
+            className="preorder-img"
+          />
           <form className="preorder-form" onSubmit={handleSubmit}>
             <label>
               Street Address
