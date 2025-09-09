@@ -86,22 +86,22 @@ const Hero = () => {
                         navigate("/allProducts");
                     }}>All</button>
                     <button className="category-btn"  onClick={() => {
-                        navigate("allProducts#Pizza");
+                        navigate("/allProducts#Pizza");
                     }}>Pizza</button>
                     <button className="category-btn"  onClick={() => {
-                        navigate("allProducts#Pizza");
+                        navigate("/allProducts#Pizza");
                     }}>Burger</button>
                     <button className="category-btn"  onClick={() => {
-                        navigate("allProducts#Burgers");
+                        navigate("/allProducts#Burgers");
                     }}>Burger</button>
                     <button className="category-btn" onClick={() => {
-                        navigate("allProducts#Pasta");
+                        navigate("/allProducts#Pasta");
                     }}>Pasta</button>
                     <button className="category-btn" onClick={() => {
-                        navigate("allProducts#Salads");
+                        navigate("/allProducts#Salads");
                     }}>Salad</button>
                     <button className="category-btn" onClick={() => {
-                        navigate("allProducts#Soups");
+                        navigate("/allProducts#Soups");
                     }}>Soups</button>
                 </div>
             </div>
