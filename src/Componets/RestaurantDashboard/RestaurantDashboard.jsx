@@ -88,7 +88,7 @@ const RestaurantDashboard = () => {
       </div>
       
       <div className="dashboard-content">
-        {activeTab === 'products' && <ProductManagement restaurantId={restaurant._id} />}
+        {activeTab === 'products' && <ProductManagement restaurantId={restaurant._id} name = {restaurant.name}/>}
         {activeTab === 'details' && (
           <RestaurantDetails 
             restaurant={restaurant} 
