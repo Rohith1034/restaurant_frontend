@@ -6,6 +6,8 @@ import "./OrderHistory.css";
 const OrderHistory = ({ orders = [] }) => {
   const limitedOrders = orders.slice(0, 6); // ✅ limit to 6
 
+  console.log(limitedOrders);
+
   return (
     <div className="order-history">
       <div className="section-header">
