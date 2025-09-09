@@ -16,34 +16,38 @@ const OrdersPage = () => {
 
     const fetchOrders = async () => {
       try {
-        // 1️⃣ Fetch the user to get order IDs
         const userRes = await axios.get(
           `https://restaurant-backend-uclq.onrender.com/users/${userId}`
         );
 
         const orderIds = userRes.data?.orders || [];
 
-        // 2️⃣ Fetch each order detail using your /orders/:orderId route
         const orderPromises = orderIds.map((id) =>
-          axios.get(
-            `https://restaurant-backend-uclq.onrender.com/orders/${id}`,
-            { headers: { userId } }
-          )
+          axios
+            .get(`https://restaurant-backend-uclq.onrender.com/orders/${id}`, {
+              headers: { userId },
+            })
+            .catch((err) => {
+              console.error(`Error fetching order ${id}:`, err);
+              return null; // Return null for failed requests
+            })
         );
 
         const results = await Promise.all(orderPromises);
 
-        // 3️⃣ Extract `order` safely from each response
-        const fullOrders = results.map((res) => res.data.order || res.data);
+        // Filter out failed requests and extract orders
+        const fullOrders = results
+          .filter((result) => result && result.data)
+          .map((result) => result.data.order || result.data)
+          .filter((order) => order && order._id); // Ensure order has an _id
 
-        setOrders(fullOrders.filter(Boolean)); // remove undefined/null
+        setOrders(fullOrders);
       } catch (err) {
         console.error("Error fetching orders:", err);
       } finally {
         setLoading(false);
       }
     };
-
     fetchOrders();
   }, []);
 
@@ -78,14 +82,18 @@ const OrdersPage = () => {
                     : "Unknown Date"}
                 </div>
                 <div
-                  className={`order-status ${order?.status?.toLowerCase() || ""}`}
+                  className={`order-status ${
+                    order?.status?.toLowerCase() || ""
+                  }`}
                 >
                   <FaCheckCircle /> {order?.status || "Pending"}
                 </div>
               </div>
 
               <div className="order-restaurant">
-                {order?.restaurant?.name || order?.restaurant || "Unknown Restaurant"}
+                {order?.restaurant?.name ||
+                  order?.restaurant ||
+                  "Unknown Restaurant"}
               </div>
 
               <div className="order-items">
@@ -96,10 +104,7 @@ const OrdersPage = () => {
                         {item.quantity}x {item.product?.name || "Product"}
                       </div>
                       <div className="item-price">
-                        $
-                        {(
-                          (item.quantity || 0) * (item.price || 0)
-                        ).toFixed(2)}
+                        ${((item.quantity || 0) * (item.price || 0)).toFixed(2)}
                       </div>
                     </div>
                   ))
