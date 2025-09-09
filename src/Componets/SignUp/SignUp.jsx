@@ -3,9 +3,15 @@ import "./SignUp.css";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const SignUp = () => {
   const navigate = useNavigate();
+   const userId = Cookies.get("userId");
+  
+    if (userId != null) {
+      navigate("/dashboard");
+    }
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",

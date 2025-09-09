@@ -4,13 +4,14 @@ import './Hero.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 const Hero = () => {
     const [searchValue, setSearchValue] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const userId = Cookies.get("userId");
-
+    const navigate = useNavigate();
     useEffect(() => {
         const fetchResults = async () => {
             if (!searchValue) {
@@ -81,13 +82,27 @@ const Hero = () => {
                 </div>
                 
                 <div className="hero-categories">
-                    <button className="category-btn active">All</button>
-                    <button className="category-btn">Pizza</button>
-                    <button className="category-btn">Burger</button>
-                    <button className="category-btn">Sushi</button>
-                    <button className="category-btn">Pasta</button>
-                    <button className="category-btn">Salad</button>
-                    <button className="category-btn">Dessert</button>
+                    <button className="category-btn active" onClick={() => {
+                        navigate("/allProducts");
+                    }}>All</button>
+                    <button className="category-btn"  onClick={() => {
+                        navigate("allProducts#Pizza");
+                    }}>Pizza</button>
+                    <button className="category-btn"  onClick={() => {
+                        navigate("allProducts#Pizza");
+                    }}>Burger</button>
+                    <button className="category-btn"  onClick={() => {
+                        navigate("allProducts#Burgers");
+                    }}>Burger</button>
+                    <button className="category-btn" onClick={() => {
+                        navigate("allProducts#Pasta");
+                    }}>Pasta</button>
+                    <button className="category-btn" onClick={() => {
+                        navigate("allProducts#Salads");
+                    }}>Salad</button>
+                    <button className="category-btn" onClick={() => {
+                        navigate("allProducts#Soups");
+                    }}>Soups</button>
                 </div>
             </div>
         </section>

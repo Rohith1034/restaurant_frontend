@@ -8,14 +8,17 @@ import { toast } from "react-toastify";
 import { GoogleLogin } from "@react-oauth/google";
 import {jwtDecode} from "jwt-decode";
 
-// Google provider: 937229950296-bhjeopfcgnjs508cj7jhhitcmhd41222.apps.googleusercontent.com
-/*
-  
-
-*/ 
 
 const SignIn = () => {
   const navigate = useNavigate();
+
+  const userId = Cookies.get("userId");
+
+  if (userId != null) {
+    navigate("/dashboard");
+  }
+
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
