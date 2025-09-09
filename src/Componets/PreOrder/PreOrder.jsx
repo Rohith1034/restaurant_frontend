@@ -68,10 +68,15 @@ const PreOrder = () => {
     const userId = Cookies.get("userId");
 
     try {
+      if (!product) {
+        toast.error("Product not loaded yet.");
+        return;
+      }
+
       const res = await axios.post(
         "https://restaurant-backend-uclq.onrender.com/orders",
         {
-          restaurant: product.restaurant._id, // must be _id
+          restaurant: product.restaurantId || product.restaurant?._id,
           items: [{ product: product._id, quantity: 1, price: product.price }],
           totalAmount: product.price,
           deliveryAddress: {
