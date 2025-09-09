@@ -92,10 +92,13 @@ const PreOrder = () => {
     console.log("Payment Method:", paymentMethod);
 
     try {
+      const restaurantName =
+        product.restaurant?.name || product.restaurant || "Unknown";
+
       const res = await axios.post(
         "https://restaurant-backend-uclq.onrender.com/orders",
         {
-          restaurant: product.restaurant, // sending string name
+          restaurant: restaurantName, // ✅ always send a string
           items: [{ product: product._id, quantity: 1, price: product.price }],
           totalAmount: product.price,
           deliveryAddress: {
