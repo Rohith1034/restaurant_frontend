@@ -1,4 +1,3 @@
-// src/pages/OrdersPage.js
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -16,38 +15,22 @@ const OrdersPage = () => {
 
     const fetchOrders = async () => {
       try {
-        const userRes = await axios.get(
-          `https://restaurant-backend-uclq.onrender.com/users/${userId}`
+        // Use the /orders endpoint that returns all orders for a user
+        const response = await axios.get(
+          `https://restaurant-backend-uclq.onrender.com/orders`,
+          { headers: { userId } }
         );
 
-        const orderIds = userRes.data?.orders || [];
-
-        const orderPromises = orderIds.map((id) =>
-          axios
-            .get(`https://restaurant-backend-uclq.onrender.com/orders/${id}`, {
-              headers: { userId },
-            })
-            .catch((err) => {
-              console.error(`Error fetching order ${id}:`, err);
-              return null; // Return null for failed requests
-            })
-        );
-
-        const results = await Promise.all(orderPromises);
-
-        // Filter out failed requests and extract orders
-        const fullOrders = results
-          .filter((result) => result && result.data)
-          .map((result) => result.data.order || result.data)
-          .filter((order) => order && order._id); // Ensure order has an _id
-
-        setOrders(fullOrders);
+        // Get the latest 6 orders (already sorted by date from backend)
+        const latestOrders = response.data.orders ? response.data.orders.slice(0, 6) : [];
+        setOrders(latestOrders);
       } catch (err) {
         console.error("Error fetching orders:", err);
       } finally {
         setLoading(false);
       }
     };
+
     fetchOrders();
   }, []);
 
@@ -70,59 +53,61 @@ const OrdersPage = () => {
         </div>
       ) : (
         <div className="orders-list">
-          {orders.map((order, index) => (
-            <div key={order?._id || index} className="order-card">
-              <div className="order-header">
-                <div className="order-id">
-                  Order #{order?._id ? order._id.slice(-6) : "N/A"}
-                </div>
-                <div className="order-date">
-                  {order?.orderDate
-                    ? new Date(order.orderDate).toLocaleDateString()
-                    : "Unknown Date"}
-                </div>
-                <div
-                  className={`order-status ${
-                    order?.status?.toLowerCase() || ""
-                  }`}
-                >
-                  <FaCheckCircle /> {order?.status || "Pending"}
-                </div>
-              </div>
+          {orders.map((order, index) => {
+            // Safe access to order properties
+            const orderId = order?._id || `temp-${index}`;
+            const orderDate = order?.orderDate ? new Date(order.orderDate).toLocaleDateString() : "Unknown Date";
+            const status = order?.status || "Pending";
+            const restaurantName = order?.restaurant?.name || order?.restaurant || "Unknown Restaurant";
+            const totalAmount = order?.totalAmount ? order.totalAmount.toFixed(2) : "0.00";
 
-              <div className="order-restaurant">
-                {order?.restaurant?.name ||
-                  order?.restaurant ||
-                  "Unknown Restaurant"}
-              </div>
+            return (
+              <div key={orderId} className="order-card">
+                <div className="order-header">
+                  <div className="order-id">
+                    Order #{orderId.slice(-6)}
+                  </div>
+                  <div className="order-date">
+                    {orderDate}
+                  </div>
+                  <div className={`order-status ${status.toLowerCase()}`}>
+                    <FaCheckCircle /> {status}
+                  </div>
+                </div>
 
-              <div className="order-items">
-                {order?.items?.length > 0 ? (
-                  order.items.map((item, idx) => (
-                    <div key={idx} className="order-item">
-                      <div className="item-name">
-                        {item.quantity}x {item.product?.name || "Product"}
+                <div className="order-restaurant">
+                  {restaurantName}
+                </div>
+
+                <div className="order-items">
+                  {order?.items?.length > 0 ? (
+                    order.items.map((item, idx) => (
+                      <div key={idx} className="order-item">
+                        <div className="item-name">
+                          {item.quantity || 1}x {item.product?.name || "Product"}
+                        </div>
+                        <div className="item-price">
+                          $
+                          {((item.quantity || 0) * (item.price || 0)).toFixed(2)}
+                        </div>
                       </div>
-                      <div className="item-price">
-                        ${((item.quantity || 0) * (item.price || 0)).toFixed(2)}
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <p>No items found</p>
-                )}
-              </div>
-
-              <div className="order-footer">
-                <div className="total-label">Total</div>
-                <div className="total-price">
-                  ${order?.totalAmount ? order.totalAmount.toFixed(2) : "0.00"}
+                    ))
+                  ) : (
+                    <p>No items found</p>
+                  )}
                 </div>
-              </div>
 
-              <button className="reorder-button">Reorder</button>
-            </div>
-          ))}
+                <div className="order-footer">
+                  <div className="total-label">Total</div>
+                  <div className="total-price">
+                    ${totalAmount}
+                  </div>
+                </div>
+
+                <button className="reorder-button">Reorder</button>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>
