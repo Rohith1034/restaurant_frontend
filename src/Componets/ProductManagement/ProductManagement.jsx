@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import './ProductManagement.css';
 
-const ProductManagement = ({ props }) => {
+const ProductManagement = (props) => {
   const [products, setProducts] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
