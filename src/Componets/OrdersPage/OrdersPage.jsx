@@ -1,18 +1,45 @@
-// src/components/profile/OrderHistory.js
-import React from "react";
+// src/pages/OrdersPage.js
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
 import { FaClock, FaCheckCircle } from "react-icons/fa";
-import "./OrderHistory.css";
+import "./OrdersPage.css";
+import LoadingAnimation from "../LoadingAnimation/LoadingAnimation";
 
-const OrderHistory = ({ orders = [] }) => {
-  const limitedOrders = orders.slice(0, 6); // ✅ limit to 6
+const OrdersPage = () => {
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const userId = Cookies.get("userId");
+    if (!userId) return;
+
+    const fetchOrders = async () => {
+      try {
+        const res = await axios.get(
+          "https://restaurant-backend-uclq.onrender.com/orders",
+          { headers: { userId } }
+        );
+        setOrders(res.data.orders || []);
+      } catch (err) {
+        console.error("Error fetching orders:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
+  if (loading) return <LoadingAnimation />;
 
   return (
     <div className="order-history">
       <div className="section-header">
-        <h2 className="section-title">Order History</h2>
+        <h2 className="section-title">My Orders</h2>
       </div>
 
-      {limitedOrders.length === 0 ? (
+      {orders.length === 0 ? (
         <div className="empty-orders">
           <div className="empty-icon">
             <FaClock />
@@ -23,7 +50,7 @@ const OrderHistory = ({ orders = [] }) => {
         </div>
       ) : (
         <div className="orders-list">
-          {limitedOrders.map((order) => (
+          {orders.map((order) => (
             <div key={order._id} className="order-card">
               <div className="order-header">
                 <div className="order-id">Order #{order._id.slice(-6)}</div>
@@ -64,4 +91,4 @@ const OrderHistory = ({ orders = [] }) => {
   );
 };
 
-export default OrderHistory;
+export default OrdersPage;

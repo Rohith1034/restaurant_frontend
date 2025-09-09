@@ -1,0 +1,171 @@
+/* Reuse OrderHistory styles */
+@import "./OrderHistory.css";
+
+/* Page wrapper */
+.order-history {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+/* Loading text */
+.loading {
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  color: #6c757d;
+  padding: 50px 20px;
+}
+
+/* Page header */
+.section-header {
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+.section-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #212529;
+  margin: 0;
+}
+
+/* Ensure consistency */
+.orders-list {
+  display: grid;
+  gap: 20px;
+}
+
+.order-card {
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 16px;
+  padding: 25px;
+  transition: all 0.3s ease;
+}
+
+.order-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.order-id {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #212529;
+}
+
+.order-date {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.order-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: 20px;
+}
+
+.order-status.pending {
+  background: #fff4e5;
+  color: #ff6b00;
+}
+
+.order-status.delivered {
+  background: #e6f4ea;
+  color: #0f9d58;
+}
+
+.order-status.cancelled {
+  background: #fdecea;
+  color: #d93025;
+}
+
+.order-restaurant {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #212529;
+  margin-bottom: 15px;
+}
+
+.order-items {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 15px;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.item-name {
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  color: #495057;
+}
+
+.item-price {
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  color: #495057;
+  font-weight: 500;
+}
+
+.order-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.total-label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #212529;
+}
+
+.total-price {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #ff6b00;
+}
+
+.reorder-button {
+  width: 100%;
+  background: #f8f9fa;
+  color: #495057;
+  border: 1px solid #e9ecef;
+  padding: 12px;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.reorder-button:hover {
+  background: #e9ecef;
+}
