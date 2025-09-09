@@ -177,10 +177,9 @@ const ProductDetail = () => {
                     <GoChecklist style={{ fontSize: "22px" }} />
                     Add To Cart
                   </button>
-                  <button className="left-info-buttons">
+                  <button className="left-info-buttons" onClick={handleBuyNow}>
                     <CiDeliveryTruck
                       style={{ fontSize: "22px" }}
-                      onClick={handleBuyNow}
                     />
                     Buy now
                   </button>
