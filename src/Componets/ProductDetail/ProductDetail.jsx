@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./ProductDetail.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "axios";
 import LoadingAnimation from "../LoadingAnimation/LoadingAnimation";
@@ -19,11 +19,14 @@ const ProductDetail = () => {
   const [cartCount, setCartCount] = useState(0);
   const [randomRestaurantData, setRandomRestaurantData] = useState([]);
   const [randomProductData, setRandomProductData] = useState([]);
+  const navigate = useNavigate();
   const handleAddToCart = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        `https://restaurant-backend-uclq.onrender.com/${Cookies.get("userId")}/addTocart`,
+        `https://restaurant-backend-uclq.onrender.com/${Cookies.get(
+          "userId"
+        )}/addTocart`,
         { productData },
         {
           headers: { userId: Cookies.get("userId") },
@@ -36,14 +39,22 @@ const ProductDetail = () => {
       toast.error("Error adding item to cart!");
     }
   };
+
+  const handleBuyNow = () => {
+    navigate(`/preorder/${id}`);
+  };
+
   useEffect(() => {
     const userId = Cookies.get("userId");
 
     const getProductData = async () => {
       try {
-        const res = await axios.get(`https://restaurant-backend-uclq.onrender.com/product/${id}`, {
-          headers: { userId: userId },
-        });
+        const res = await axios.get(
+          `https://restaurant-backend-uclq.onrender.com/product/${id}`,
+          {
+            headers: { userId: userId },
+          }
+        );
         if (res.status === 200) {
           setProductData(res.data.msg);
         }
@@ -54,9 +65,12 @@ const ProductDetail = () => {
 
     const getUserData = async () => {
       try {
-        const res = await axios.get(`https://restaurant-backend-uclq.onrender.com/user/${userId}`, {
-          headers: { userId: userId },
-        });
+        const res = await axios.get(
+          `https://restaurant-backend-uclq.onrender.com/user/${userId}`,
+          {
+            headers: { userId: userId },
+          }
+        );
         setUser(res.data);
         setCartCount(res.data.orders?.length || 0);
       } catch (err) {
@@ -156,12 +170,18 @@ const ProductDetail = () => {
                   </div>
                 )}
                 <div className="info-buttons">
-                  <button className="left-info-buttons" onClick={handleAddToCart}>
+                  <button
+                    className="left-info-buttons"
+                    onClick={handleAddToCart}
+                  >
                     <GoChecklist style={{ fontSize: "22px" }} />
                     Add To Cart
                   </button>
                   <button className="left-info-buttons">
-                    <CiDeliveryTruck style={{ fontSize: "22px" }} />
+                    <CiDeliveryTruck
+                      style={{ fontSize: "22px" }}
+                      onClick={handleBuyNow}
+                    />
                     Buy now
                   </button>
                 </div>

@@ -14,6 +14,7 @@ import RestaurantDashboard from "./Componets/RestaurantDashboard/RestaurantDashb
 import ProductManagement from "./Componets/ProductManagement/ProductManagement";
 import RestaurantLogin from "./Componets/RestaurantLogin/RestaurantLogin";
 import RestaurantAuth from "./Componets/RestaurantAuth/RestaurantAuth";
+import PreOrder from "./Componets/PreOrder/PreOrder";
 const provider = process.env.CLIENTID;
 
 
@@ -31,6 +32,7 @@ function App() {
         <Route path="/allProducts" element={<AllProducts />}></Route>
         <Route path="/product/:id" element={<ProductDetail/>}></Route>
         <Route path="/cart" element={<CartPage/>}></Route>
+        <Route path="/preorder/:id" element={<PreOrder />} />
         <Route path="/restaurants/auth" element={<RestaurantAuth />} />
         <Route path="/restaurants/login/*" element={<RestaurantAuth />} />
         <Route path="/restaurants/signin" element={<RestaurantAuth />} />
