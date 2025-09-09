@@ -71,7 +71,7 @@ const PreOrder = () => {
       const res = await axios.post(
         "https://restaurant-backend-uclq.onrender.com/orders",
         {
-          restaurant: product.restaurantId || product.restaurant?._id,
+          restaurant: product.restaurant._id, // must be _id
           items: [{ product: product._id, quantity: 1, price: product.price }],
           totalAmount: product.price,
           deliveryAddress: {
